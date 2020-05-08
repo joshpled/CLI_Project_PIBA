@@ -1,7 +1,5 @@
 # CLI_Project_PIBA
 
-# Project Title
-
 Accesses the PIBA Foundation Database through Shelter Luv to list all available dogs for adoption.
 
 ## Getting Started
