@@ -29,19 +29,5 @@ class Api
         
         end 
 
-        # def self.dog_details(internal_id)
-
-        #     url = URI("https://www.shelterluv.com/api/v1/animals/#{internal_id}")
-
-        #     https = Net::HTTP.new(url.host, url.port);
-        #     https.use_ssl = true
-
-        #     request = Net::HTTP::Get.new(url)
-        #  
-
-        #     response = https.request(request)
-        #     dog = JSON.parse(response.body)
-        #end 
-    
 end
     

@@ -1,14 +1,8 @@
-# frozen_string_literal: true
-
 source "https://rubygems.org"
 
-require "pry"
-require "httparty"
-require "json"
-require 'artii'
-require "uri"
-require "net/http"
-require "dotenv"
+# Specify your gem's dependencies in shelterluv.gemspec
+gemspec
 
+gem "rake", "~> 12.0"
+gem "rspec", "~> 3.0"
 
-# gem "rails"
