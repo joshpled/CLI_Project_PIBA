@@ -26,8 +26,6 @@ class Cli
                 puts "Type 'list' for list of dogs, 'home' for main menu"
             elsif input == "home"
                 prompt_user
-                print "Option: " 
-                input = gets.strip.downcase
             elsif input.to_i == 2 or input == 'search'
                 # Search.search_by_size("small")
                 # binding.pry
@@ -64,7 +62,7 @@ class Cli
     def dog_details(dog_id)
 
         dog = Dog.all.select {|dog| dog.internal_id == dog_id.to_s}
-      
+        # binding.pry
         puts " "
         puts "Say Hello To: #{dog[0].name}!"
         puts " "
@@ -75,6 +73,7 @@ class Cli
         puts "Status: #{dog[0].status.include?("Available") ? "Available for Adoption" : "Not Available, Currently with Foster"}"
         puts "With A Foster? #{dog[0].in_foster ? "Yes" : "No"}"
         puts "Photos: #{dog[0].photos}"
+        puts "Adoption Fee: #{dog[0].adoption_fee}"
         puts " "
 
     end 
