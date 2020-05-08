@@ -11,4 +11,8 @@ require "net/http"
 require_relative "./manager/cli"
 require_relative "./manager/api"
 require_relative "./manager/dog"
+require_relative "./manager/fosters"
+require_relative "./manager/staff"
+require_relative "./manager/search"
+
 
