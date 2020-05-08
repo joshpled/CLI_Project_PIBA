@@ -8,7 +8,7 @@ class Api
             https.use_ssl = true
         
             request = Net::HTTP::Get.new(url)
-            request["x-api-key"] = "1f99ddc5-2942-4b42-ae52-368fda549313"
+            request["x-api-key"] = ENV["KEY"]
         
             response = https.request(request)
             animals = JSON.parse(response.body)
@@ -37,7 +37,7 @@ class Api
         #     https.use_ssl = true
 
         #     request = Net::HTTP::Get.new(url)
-        #     request["x-api-key"] = "1f99ddc5-2942-4b42-ae52-368fda549313"
+        #  
 
         #     response = https.request(request)
         #     dog = JSON.parse(response.body)

@@ -6,6 +6,9 @@ require "json"
 require 'artii'
 require "uri"
 require "net/http"
+require 'dotenv'
+Dotenv.load
+
 
 
 require_relative "./manager/cli"
