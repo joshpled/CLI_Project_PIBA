@@ -8,6 +8,7 @@ require "json"
 require 'artii'
 require "uri"
 require "net/http"
+require "dotenv"
 
 
 # gem "rails"

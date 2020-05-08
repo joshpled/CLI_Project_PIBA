@@ -4,4 +4,3 @@
 require_relative '../lib/environment.rb'
 
 Cli.new.run
-
