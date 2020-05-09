@@ -24,15 +24,14 @@ class Api
                 breed = animal["Breed"]
                 color = animal["Color"]
                 age = animal["Age"]
-                adoption_fee = animal["AdoptionFeeGroup"]["Price"]
-                # binding.pry
-                Dog.new(name: name, internal_id: internal_id, sex: sex, status: status, in_foster: in_foster, size: size, photos: photos, breed: breed, color: color, age: age)
+                adoption_fee = animal["AdoptionFeeGroup"]
+                Dog.new(name: name, internal_id: internal_id, sex: sex, status: status, in_foster: in_foster, size: size, photos: photos, breed: breed, color: color, age: age, adoption_fee: adoption_fee)
             end 
         
         end 
 
         def self.get_people
-            url = URI(" https://www.shelterluv.com/api/v1/people")
+            url = URI("https://www.shelterluv.com/api/v1/people")
         
             https = Net::HTTP.new(url.host, url.port);
             https.use_ssl = true
@@ -42,7 +41,7 @@ class Api
         
             response = https.request(request)
             people = JSON.parse(response.body)
-            binding.pry
+            
 
 
         end 

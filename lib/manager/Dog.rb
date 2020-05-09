@@ -1,6 +1,6 @@
 class Dog
 
-    attr_accessor :name, :internal_id, :sex, :status, :in_foster, :size, :photos, :breed, :color, :age, :adoption_fee
+    attr_accessor :name, :internal_id, :sex, :status, :in_foster, :size, :photos, :breed, :color, :age, :adoption_fee, :person
 
     @@all = []
 

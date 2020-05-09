@@ -5,12 +5,10 @@ class Cli
         a = Artii::Base.new
         b = Artii::Base.new :font => 'straight'
         Api.get_by_name
-        puts " "
-        puts " "
-        puts a.asciify('PIBA')
-        puts "#{b.asciify('powered by')} Shelter Luv"
-        puts " "
-        puts " "
+        Api.get_people
+        
+        puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
+        puts "\n" + "#{b.asciify('powered by')} Shelter Luv".colorize(:yellow)
 
         prompt_user
         print "Option: " 
@@ -19,74 +17,79 @@ class Cli
         while input != "exit"
             if input.to_i == 1 or input == 'list'
                 print_dogs_by_name(Dog.all)
-                puts "Which dog would you like more information on?"
                 input = gets.strip.downcase
-                dog_id = Dog.all[input.to_i-1].internal_id
-                dog_details(dog_id)
-                puts "Type 'list' for list of dogs, 'home' for main menu"
+                chosen_dog(input)
             elsif input == "home"
                 prompt_user
             elsif input.to_i == 2 or input == 'search'
-                # Search.search_by_size("small")
-                # binding.pry
+                size_search
             else
-                puts " "
-                puts "Invalid input"
-                puts " "
+                puts "\nInvalid input"
+                puts "\nIf choosing from a numbered list, your input must be a number."
+                puts 
             end 
-             print "Option: " 
+             print "\nOption: " 
              input = gets.strip.downcase
-        
         end 
-        puts " "
-        puts " "
-        puts b.asciify('PIBA Foundation')
-        puts "The PIBA Foundation is committed to assisting and advocating for the well-being of individuals and animals through disaster relief, community engagement, and environmental quality."
-        puts " "
-        puts "The PIBA Foundation is a 501(c)(3) organization. Contributions to The PIBA Foundation are tax-deductible to the extent allowed by law. The tax identification number is 84-2979389."
-        puts " "
-        puts "Thank You for checking in!"
-        puts " "
+
+        puts "\n" + b.asciify('PIBA Foundation').colorize(:yellow)
+        puts "\nThe PIBA Foundation is committed to assisting and advocating for the well-being of individuals and animals through disaster relief, community engagement, and environmental quality."
+        puts "\nThe PIBA Foundation is a 501(c)(3) organization. Contributions to The PIBA Foundation are tax-deductible to the extent allowed by law. The tax identification number is 84-2979389."
+        puts "\nThank You for checking in!"
+        puts
+
     end 
     
     def print_dogs_by_name(list)
-        puts " "
-        puts "These are the dogs currently in PIBA Foundation Database:"
-        puts " "
+        puts "\nThese are the dogs currently in PIBA Foundation Database:"
+        puts 
         list.each.with_index(1) do |dog, index|
         puts "#{index}. #{dog.name}"
         end 
-        puts " "
+        puts "\nWhich dog would you like more information on?"
+        puts "\nType 'list' for list of dogs, 'home' for main menu, or 'exit' to close program"
+        puts "\nOption: "
+        puts
+        
     end 
 
     def dog_details(dog_id)
 
-        dog = Dog.all.select {|dog| dog.internal_id == dog_id.to_s}
-        # binding.pry
-        puts " "
-        puts "Say Hello To: #{dog[0].name}!"
-        puts " "
-        puts "Age: #{dog[0].age / 12} years old" ## Remember to account for months and days.
-        puts "Size: #{dog[0].size}"
-        puts "Breed: #{dog[0].breed}"
-        puts "Color: #{dog[0].color}"
-        puts "Status: #{dog[0].status.include?("Available") ? "Available for Adoption" : "Not Available, Currently with Foster"}"
-        puts "With A Foster? #{dog[0].in_foster ? "Yes" : "No"}"
-        puts "Photos: #{dog[0].photos}"
-        puts "Adoption Fee: #{dog[0].adoption_fee}"
-        puts " "
+        dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
+
+        puts "\nSay Hello To: #{dog.name.colorize(:blue)}!"
+        puts "\nAge: #{dog.age / 12} years old" ## Remember to account for months and days.
+        puts "Size: #{dog.size}"
+        puts "Breed: #{dog.breed}"
+        puts "Color: #{dog.color}"
+        puts "Status: #{dog.status.include?("Available") ? "Available for Adoption" : "Not Available, Currently with Foster"}"
+        puts "With A Foster? #{dog.in_foster ? "Yes" : "No"}"
+        puts "Adoption Fee: $#{dog.adoption_fee["Price"]}"
+        puts "Photos: #{dog.photos.join}"
+        puts 
 
     end 
 
     def prompt_user 
-        puts "Choose from the following options:"
-        puts " "
-        puts "1. List of Dogs"
+
+        puts "\n\nChoose from the following options:"
+        puts "\n1. List of Dogs"
         puts "2. Search Dogs"
-        puts "3. List of Fosters"
-        puts "4. List of Staff"
-        puts " "
+        puts
+
     end
+
+    def chosen_dog(input)
+
+        dog_id = Dog.all[input.to_i-1].internal_id
+        dog_details(dog_id)
+        
+    end 
+
+    def size_search(input)
+        
+    end 
+
 
     
 

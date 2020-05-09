@@ -5,9 +5,12 @@ class Search
         @input = input
     end
 
-    def search_by_size(size)
+    def self.search_by_size(size)
+
         dogs = Dog.all
-        dogs.select {|dog| dog.size == size}
+        dogs.select {|dog| dog.size.include? size}
+
+
     end
 
 end 
