@@ -13,6 +13,7 @@ class Api
             response = https.request(request)
             animals = JSON.parse(response.body)
             dogs = animals['animals']
+            binding.pry
             dogs.collect do |animal|
                 name = animal["Name"]
                 internal_id = animal["Internal-ID"]
@@ -25,6 +26,7 @@ class Api
                 color = animal["Color"]
                 age = animal["Age"]
                 adoption_fee = animal["AdoptionFeeGroup"]
+                
                 Dog.new(name: name, internal_id: internal_id, sex: sex, status: status, in_foster: in_foster, size: size, photos: photos, breed: breed, color: color, age: age, adoption_fee: adoption_fee)
             end 
         
@@ -43,10 +45,11 @@ class Api
             people_array = JSON.parse(response.body)
             people = people_array["people"]
             people.collect do |person|
-                first_name = people['Firstname']
-                last_name = people['Lastname']
-                email = people['Email']
-                internal_id = people['Internal-ID']
+                first_name = person["Firstname"]
+                last_name = person["Lastname"]
+                email = person["Email"]
+                internal_id = person["Internal-ID"]
+                
                 Person.new(first_name: first_name, last_name: last_name, email: email, internal_id: internal_id)
             end
 

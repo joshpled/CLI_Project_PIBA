@@ -44,8 +44,12 @@ class Cli
                 else 
                  nil
                 end 
-            elsif input.to_i == 3 or input == 'staff' or input == 'fosters' or input == 'foster'
-
+            elsif input.to_i == 3 or input == 'fosters'
+                puts "\n" + b.asciify('FOSTERS').colorize(:yellow)
+                Person.all.each.with_index(1) do |person, index|
+                    puts "#{index}. #{person.first_name} #{person.last_name}"
+                    end 
+                puts "\n\nSome fosters are also staff."
             elsif input == "home"
                 prompt_user
             else
@@ -69,7 +73,7 @@ class Cli
         puts "\n\nChoose from the following options:"
         puts "\n1. List of Dogs"
         puts "2. Search Dogs"
-        puts "3. Staff and Fosters"
+        puts "3. Fosters"
         puts
     end
     
@@ -141,6 +145,10 @@ class Cli
         else 
             "Invalid"
         end
+    end 
+
+    def fosters_info
+
     end 
     
 
