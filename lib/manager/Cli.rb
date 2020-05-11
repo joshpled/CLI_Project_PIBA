@@ -43,7 +43,7 @@ class Cli
                 when 3
                     Search.search_by_availability
                 else 
-                 nil
+                 prompt_user
                 end 
             elsif input.to_i == 3 or input == 'fosters'
                 puts "\n" + b.asciify('FOSTERS').colorize(:yellow)
@@ -61,7 +61,7 @@ class Cli
                 puts "\nIf choosing from a numbered list, your input must be a number."
                 puts 
             end 
-             print "\nOption: " 
+             print "\nOption: "
              input = gets.strip.downcase
         end 
 
@@ -73,7 +73,7 @@ class Cli
 
     end 
 
-    def prompt_user 
+    def prompt_user
         puts "\n\nChoose from the following options:"
         puts "\n1. List of Dogs"
         puts "2. Search Dogs"
@@ -94,22 +94,23 @@ class Cli
 
         dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
         puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
-        puts "\nAge: #{dog.age / 12} years old,#{dog.age % 12} months old." ## Remember to account for months and days.
+        # puts "\nAge: #{dog.age > 1 ? dog.age / 12 : dog.age} years & #{dog.age % 12} months old." ## Remember to account for months and days.
         puts "Size: #{dog.size}"
         puts "Breed: #{dog.breed}"
         puts "Color: #{dog.color}"
         puts "Status: #{dog.status.include?("Available") ? "Available for Adoption" : "Not Available, Currently with Foster"}"
         puts "With A Foster? #{dog.in_foster ? "Yes" : "No"}"
-        puts "Adoption Fee: $#{dog.adoption_fee["Price"]}"
+        print dog.in_foster ? "Foster: #{dog.person["FirstName"]} #{dog.person["LastName"]}" : print
+        puts "\nAdoption Fee: $#{dog.adoption_fee["Price"]}"
         puts "Photos: #{dog.photos.join}"
         puts 
 
     end 
 
     def chosen_dog(input)
-        dog_id = Dog.all[input.to_i-1].internal_id
+        dog_id = Dog.all[input.to_i-1].internal_id]
         dog_details(dog_id)
-        puts "\nType 'list' for list of dogs, 'search' for search menu, 'home' for main menu, or 'exit' to close program"
+        puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
     end 
 
     def dogs_by_size
@@ -154,13 +155,13 @@ class Cli
     def chosen_foster(input)
         person_id = Person.all[input.to_i-1].internal_id
         fosters_info(person_id)
-        puts "\nType 'list' for list of dogs, 'search' for search menu, 'home' for main menu, or 'exit' to close program"
+        puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
     end 
 
     def fosters_info(person_id)
         person = Person.all.detect {|person| person.internal_id == person_id.to_s}
         puts "\n#{person.first_name} #{person.last_name}"
-        puts "\n#{person.email}"
+        puts "#{person.email}"
         puts
     end 
     
