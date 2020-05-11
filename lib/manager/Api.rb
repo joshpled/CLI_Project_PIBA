@@ -40,9 +40,15 @@ class Api
             request["x-api-key"] = ENV["KEY"]
         
             response = https.request(request)
-            people = JSON.parse(response.body)
-            binding.pry
-            
+            people_array = JSON.parse(response.body)
+            people = people_array["people"]
+            people.collect do |person|
+                first_name = people['Firstname']
+                last_name = people['Lastname']
+                email = people['Email']
+                internal_id = people['Internal-ID']
+                Person.new(first_name: first_name, last_name: last_name, email: email, internal_id: internal_id)
+            end
 
 
         end 
