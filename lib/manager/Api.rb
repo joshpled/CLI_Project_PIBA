@@ -41,6 +41,7 @@ class Api
         
             response = https.request(request)
             people = JSON.parse(response.body)
+            binding.pry
             
 
 

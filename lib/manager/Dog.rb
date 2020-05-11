@@ -23,8 +23,4 @@ class Dog
         @@all.sort_by{ |word| word.internal_id }
     end
 
-    def self.find_by_id(internal_id)
-        self.all.select{|dog| dog.internal_id == internal_id}
-    end 
-
 end 

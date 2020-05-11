@@ -1,4 +1,3 @@
-
 class Cli
 
     def run
@@ -6,7 +5,7 @@ class Cli
         b = Artii::Base.new :font => 'straight'
         Api.get_by_name
         Api.get_people
-        
+
         puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
         puts "\n" + "#{b.asciify('powered by')} Shelter Luv".colorize(:yellow)
 
@@ -16,13 +15,39 @@ class Cli
         
         while input != "exit"
             if input.to_i == 1 or input == 'list'
+                puts "\n" + b.asciify('LIST').colorize(:yellow)
                 print_dogs_by_name(Dog.all)
+                print "\nOption: " 
                 input = gets.strip.downcase
                 chosen_dog(input)
+            elsif input.to_i == 2 or input == 'search'
+                puts "\n" + b.asciify('SEARCH').colorize(:yellow)
+                puts "\nYou can search based on the following criteria:"
+                puts "\n1. Size"
+                puts "2. Sex"
+                puts "3. Availability"
+                print "\nOption: " 
+                input = gets.strip.downcase
+                case input.to_i
+                when 1
+                    dogs_by_size
+                    print "\nOption: "
+                    input = gets.strip.downcase
+                    chosen_dog(input)
+                when 2
+                    dogs_by_sex
+                    print "\nOption: "
+                    input = gets.strip.downcase
+                    chosen_dog(input)
+                when 3
+                    Search.search_by_availability
+                else 
+                 nil
+                end 
+            elsif input.to_i == 3 or input == 'staff' or input == 'fosters' or input == 'foster'
+
             elsif input == "home"
                 prompt_user
-            elsif input.to_i == 2 or input == 'search'
-                size_search
             else
                 puts "\nInvalid input"
                 puts "\nIf choosing from a numbered list, your input must be a number."
@@ -39,25 +64,28 @@ class Cli
         puts
 
     end 
+
+    def prompt_user 
+        puts "\n\nChoose from the following options:"
+        puts "\n1. List of Dogs"
+        puts "2. Search Dogs"
+        puts "3. Staff and Fosters"
+        puts
+    end
     
     def print_dogs_by_name(list)
-        puts "\nThese are the dogs currently in PIBA Foundation Database:"
+        puts "\nThese are the dogs currently in the PIBA Foundation Database:"
         puts 
         list.each.with_index(1) do |dog, index|
         puts "#{index}. #{dog.name}"
         end 
         puts "\nWhich dog would you like more information on?"
-        puts "\nType 'list' for list of dogs, 'home' for main menu, or 'exit' to close program"
-        puts "\nOption: "
-        puts
-        
     end 
 
     def dog_details(dog_id)
 
         dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
-
-        puts "\nSay Hello To: #{dog.name.colorize(:blue)}!"
+        puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
         puts "\nAge: #{dog.age / 12} years old" ## Remember to account for months and days.
         puts "Size: #{dog.size}"
         puts "Breed: #{dog.breed}"
@@ -70,27 +98,50 @@ class Cli
 
     end 
 
-    def prompt_user 
-
-        puts "\n\nChoose from the following options:"
-        puts "\n1. List of Dogs"
-        puts "2. Search Dogs"
-        puts
-
-    end
-
     def chosen_dog(input)
-
         dog_id = Dog.all[input.to_i-1].internal_id
         dog_details(dog_id)
-        
+        puts "\nType 'list' for list of dogs, 'search' for search menu, 'home' for main menu, or 'exit' to close program"
     end 
 
-    def size_search(input)
-        
+    def dogs_by_size
+        puts "\n\nChoose from the following options:"
+        puts "\n1. Small (1-19)"
+        puts "\n2. Medium (20-59)"
+        puts "\n3. Large (60-99)"
+        puts "\n4. Extra-Large (100+)"
+        puts "\nWhat size are you looking for?"
+        print "\nOption: "
+        input = gets.strip.downcase
+        case input.to_i
+        when 1
+            Search.search_by_size("Small")
+        when 2
+            Search.search_by_size("Medium")
+        when 3
+            Search.search_by_size("Large")
+        when 4
+            Search.search_by_size("Extra-Large")
+        else 
+            "Invalid"
+        end
     end 
 
-
+    def dogs_by_sex
+        puts "\n\nChoose from the following options:"
+        puts "\n1. Male"
+        puts "\n2. Female"
+        print "\nOption: "
+        input = gets.strip.downcase
+        case input.to_i
+        when 1
+            Search.search_by_sex("Male")
+        when 2
+            Search.search_by_sex("Female")
+        else 
+            "Invalid"
+        end
+    end 
     
 
 end 
