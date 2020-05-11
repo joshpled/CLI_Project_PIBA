@@ -5,6 +5,7 @@ class Cli
         b = Artii::Base.new :font => 'straight'
         Api.get_by_name
         Api.get_people
+        Dog.dog_person
 
         puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
         puts "\n" + "#{b.asciify('powered by')} Shelter Luv".colorize(:yellow)
@@ -50,6 +51,9 @@ class Cli
                     puts "#{index}. #{person.first_name} #{person.last_name}"
                     end 
                 puts "\n\nSome fosters are also staff."
+                print "\nOption: " 
+                input = gets.strip.downcase
+                chosen_foster(input)
             elsif input == "home"
                 prompt_user
             else
@@ -90,7 +94,7 @@ class Cli
 
         dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
         puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
-        puts "\nAge: #{dog.age / 12} years old" ## Remember to account for months and days.
+        puts "\nAge: #{dog.age / 12} years old,#{dog.age % 12} months old." ## Remember to account for months and days.
         puts "Size: #{dog.size}"
         puts "Breed: #{dog.breed}"
         puts "Color: #{dog.color}"
@@ -147,9 +151,17 @@ class Cli
         end
     end 
 
-    def fosters_info
+    def chosen_foster(input)
+        person_id = Person.all[input.to_i-1].internal_id
+        fosters_info(person_id)
+        puts "\nType 'list' for list of dogs, 'search' for search menu, 'home' for main menu, or 'exit' to close program"
+    end 
 
+    def fosters_info(person_id)
+        person = Person.all.detect {|person| person.internal_id == person_id.to_s}
+        puts "\n#{person.first_name} #{person.last_name}"
+        puts "\n#{person.email}"
+        puts
     end 
     
-
 end 
