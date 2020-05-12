@@ -1,21 +1,23 @@
 class Cli
 
     def run
+        ## Setting the fonts and running the API GET and assigning the respective classes with the proper attributes.
         a = Artii::Base.new
         b = Artii::Base.new :font => 'straight'
         Api.get_by_name
         Api.get_people
         Dog.dog_person
-
+        ## Intro Logo
         puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
         puts "\n" + "#{b.asciify('powered by')} Shelter Luv".colorize(:yellow)
-
+        ## Intial prompt for user input.
         prompt_user
         print "Option: " 
         input = gets.strip.downcase
-
+        ## Loop for input.
         while input != "exit"
             if input.to_i == 1 or input == 'list'
+                ## Display list of all current dogs in the PIBA Database.
                 puts "\n" + b.asciify('LIST').colorize(:yellow)
                 print_dogs_by_name(Dog.all)
                 input = gets.strip.downcase.to_i
@@ -23,6 +25,7 @@ class Cli
                 chosen_dog(input)
                 end 
             elsif input.to_i == 2 or input == 'search'
+                ## Search for a dog based on a criteria
                 puts "\n" + b.asciify('SEARCH').colorize(:yellow)
                 puts "\nYou can search based on the following criteria:"
                 puts "\n1. Size"
@@ -32,21 +35,26 @@ class Cli
                 input = gets.strip.downcase
                 case input.to_i
                 when 1
+                    ## Uses a helper method below to display results.
                     dogs_by_size
                     print "\nOption: "
                     input = gets.strip.downcase.to_i
-                    input > 0 ? chosen_dog(input) : "Invalid Input"
+                    dog_id = Search.results[input.to_i-1].internal_id
+                    dog_details(dog_id)
                 when 2
+                    ## Uses a helper method below to display results.
                     dogs_by_sex
                     print "\nOption: "
                     input = gets.strip.downcase.to_i
-                    input > 0 ? chosen_dog(input) : "Invalid Input"
+                    
                 when 3
+                    ## No helper method needed. 
                     Search.search_by_availability
-                else 
+                else
                  prompt_user
                 end 
             elsif input.to_i == 3 or input == 'fosters'
+                ## List of all fosters in the system. 
                 puts "\n" + b.asciify('FOSTERS').colorize(:yellow)
                 Person.all.each.with_index(1) do |person, index|
                     puts "#{index}. #{person.first_name} #{person.last_name}"
@@ -66,7 +74,7 @@ class Cli
             print "\nMenu Options: "
             input = gets.strip.downcase
         end 
-
+        ## IF 'exit' is entered, the following will show and close the app. 
         puts "\n" + b.asciify('PIBA Foundation').colorize(:yellow)
         puts "\nThe PIBA Foundation is committed to assisting and advocating for the well-being of individuals and animals through disaster relief, community engagement, and environmental quality."
         puts "\nThe PIBA Foundation is a 501(c)(3) organization. Contributions to The PIBA Foundation are tax-deductible to the extent allowed by law. The tax identification number is 84-2979389."
@@ -76,14 +84,19 @@ class Cli
     end 
 
     def prompt_user
+        ## Prompts the user to choose from the three main categories.
         puts "\n\nChoose from the following options:"
         puts "\n1. List of Dogs"
         puts "2. Search Dogs"
         puts "3. Fosters"
         puts
     end
-    
+
+    ## List Helper Methods
+
     def print_dogs_by_name(list)
+        ## For choice 1 or LIST -- List all names of the dogs found in the PIBA Foundation Database. 
+        ## The list is sorted by internal_id variable of the dogs. 
         puts "\nThese are the dogs currently in the PIBA Foundation Database:"
         puts 
         list.each.with_index(1) do |dog, index|
@@ -94,16 +107,25 @@ class Cli
 
     end 
 
-    def dog_details(dog_id)
+    def chosen_dog(input)
+        ## Once the dog is chosen, the input is given as an integer.
+        ## The input is actually choosing an index from the array. Then the internal_id of that dog in that index is pulled and passed through to dog_details. 
+        dog_id = Dog.all[input.to_i-1].internal_id
+        dog_details(dog_id)
+    end 
 
+    def dog_details(dog_id)
+        ## When a dog is chosen, the details of that dog are displayed accordingly. 
         dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
         puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
-        if dog.age == 1
-            puts "\nAge: #{dog.age} year old."
-        elsif dog.age < 1
-            puts "\nAge: #{dog.age % 12} months old."
-        else
-        puts "\nAge: #{dog.age / 12} years & #{dog.age % 12} months old."
+        if dog.age == 12
+            puts "\nAge: #{dog.age} year old"
+        elsif dog.age < 12
+            puts "\nAge: #{dog.age % 12} months ol"
+        elsif dog.age > 12 && dog.age < 14
+            puts "\nAge: #{dog.age / 12} year & #{dog.age % 12} months old"
+        else 
+            puts "\nAge: #{dog.age / 12} years & #{dog.age % 12} months old"
         end 
         puts "Size: #{dog.size}"
         puts "Breed: #{dog.breed}"
@@ -117,12 +139,10 @@ class Cli
 
     end 
 
-    def chosen_dog(input)
-        dog_id = Dog.all[input.to_i-1].internal_id
-        dog_details(dog_id)
-    end 
+    ## Search Helper Methods
 
     def dogs_by_size
+        ## Using the Search Class, the following code will determine what size the use is looking for. 
         puts "\n\nChoose from the following options:"
         puts "\n1. Small (1-19)"
         puts "\n2. Medium (20-59)"
@@ -145,7 +165,14 @@ class Cli
         end
     end 
 
+    ## CREATE AN ARRAY WITH THE RESULTS TO THEN CHOOSE CORRECT DOG FROM THAT ARRAY. 
+
+    def dogs_by_size_results
+        dogs_by_size_results = []
+    end 
+
     def dogs_by_sex
+        ## Self-Explanitory
         puts "\n\nChoose from the following options:"
         puts "\n1. Male"
         puts "\n2. Female"
@@ -160,6 +187,8 @@ class Cli
             "Invalid"
         end
     end 
+
+    ## Fosters Helper Methods
 
     def chosen_foster(input)
         person_id = Person.all[input.to_i-1].internal_id

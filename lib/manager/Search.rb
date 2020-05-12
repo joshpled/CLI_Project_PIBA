@@ -1,13 +1,16 @@
 class Search
 
-    attr_accessor :input
+    attr_accessor :input,
     def initialize(input:)
         @input = input
     end
 
+
+
     def self.search_by_size(input)
         input = input
         dogs = Dog.all
+        dogs.select {|dog| dog.size.include?(input) ? @@results << dog : nil}
         dogs.select {|dog| dog.size.include?(input)}.each.with_index(1) do |dog, index|
             puts "#{index}. #{dog.name}"
         end 
@@ -27,6 +30,5 @@ class Search
             puts "#{index}. #{dog.name} is #{dog.status == "Available Foster" ? "Available!" : "Unavailable"}"
         end 
     end 
-
 
 end 
