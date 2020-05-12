@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["joshpled"]
   spec.email         = ["joshuapleduc@gmail.com"]
 
-  spec.summary       = %q{Hello}
-  spec.description   = %q{Hello.}
+  spec.summary       = %q{"Takes SheltLuv API for the PIBA Foundation and displays information."}
+  spec.description   = %q{"ShelterLuv is a website that provides shelter's with a wonderful interface to intake dogs and process fosters and adoptions. This gem will allow you to use ShelterLuv API to grab information from the database and allow you to push information to a website or other."}
   spec.homepage      = "https://github.com/joshpled/CLI_Project_PIBA"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
