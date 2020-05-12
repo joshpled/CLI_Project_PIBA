@@ -34,8 +34,8 @@ class Cli
                 when 1
                     dogs_by_size
                     print "\nOption: "
-                    input = gets.strip.downcase
-                    chosen_dog(input)
+                    input = gets.strip.downcase.to_i
+                    input > 0 ? chosen_dog(input) : "Invalid Input"
                 when 2
                     dogs_by_sex
                     print "\nOption: "
@@ -53,8 +53,8 @@ class Cli
                     end 
                 puts "\n\nSome fosters are also staff."
                 print "\nOption: " 
-                input = gets.strip.downcase
-                chosen_foster(input)
+                input = gets.strip.downcase.to_i
+                input > 0 ? chosen_foster(input) : "Invalid Input"
             elsif input == "home"
                 prompt_user
             else
@@ -63,7 +63,7 @@ class Cli
                 puts 
             end
             puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
-            print "Menu Options: "
+            print "\nMenu Options: "
             input = gets.strip.downcase
         end 
 
@@ -130,7 +130,7 @@ class Cli
         puts "\n4. Extra-Large (100+)"
         puts "\nWhat size are you looking for?"
         print "\nOption: "
-        input = gets.strip.downcase
+        input = gets.strip.downcase.to_i
         case input.to_i
         when 1
             Search.search_by_size("Small")
