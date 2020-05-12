@@ -17,5 +17,3 @@ require_relative "./manager/api"
 require_relative "./manager/dog"
 require_relative "./manager/person"
 require_relative "./manager/search"
-
-

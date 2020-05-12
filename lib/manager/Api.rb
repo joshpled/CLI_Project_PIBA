@@ -52,9 +52,6 @@ class Api
                 internal_id = person["Internal-ID"]
                 Person.new(first_name: first_name, last_name: last_name, email: email, internal_id: internal_id)
             end
-
-
-
         end 
 
 end

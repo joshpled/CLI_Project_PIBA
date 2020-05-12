@@ -13,14 +13,15 @@ class Cli
         prompt_user
         print "Option: " 
         input = gets.strip.downcase
-        
+
         while input != "exit"
             if input.to_i == 1 or input == 'list'
                 puts "\n" + b.asciify('LIST').colorize(:yellow)
                 print_dogs_by_name(Dog.all)
-                print "\nOption: " 
-                input = gets.strip.downcase
+                input = gets.strip.downcase.to_i
+                if input > 0
                 chosen_dog(input)
+                end 
             elsif input.to_i == 2 or input == 'search'
                 puts "\n" + b.asciify('SEARCH').colorize(:yellow)
                 puts "\nYou can search based on the following criteria:"
@@ -38,8 +39,8 @@ class Cli
                 when 2
                     dogs_by_sex
                     print "\nOption: "
-                    input = gets.strip.downcase
-                    chosen_dog(input)
+                    input = gets.strip.downcase.to_i
+                    input > 0 ? chosen_dog(input) : "Invalid Input"
                 when 3
                     Search.search_by_availability
                 else 
@@ -60,9 +61,10 @@ class Cli
                 puts "\nInvalid input"
                 puts "\nIf choosing from a numbered list, your input must be a number."
                 puts 
-            end 
-             print "\nOption: "
-             input = gets.strip.downcase
+            end
+            puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
+            print "Menu Options: "
+            input = gets.strip.downcase
         end 
 
         puts "\n" + b.asciify('PIBA Foundation').colorize(:yellow)
@@ -88,13 +90,21 @@ class Cli
         puts "#{index}. #{dog.name}"
         end 
         puts "\nWhich dog would you like more information on?"
+        print "\nOption: " 
+
     end 
 
     def dog_details(dog_id)
 
         dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
         puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
-        # puts "\nAge: #{dog.age > 1 ? dog.age / 12 : dog.age} years & #{dog.age % 12} months old." ## Remember to account for months and days.
+        if dog.age == 1
+            puts "\nAge: #{dog.age} year old."
+        elsif dog.age < 1
+            puts "\nAge: #{dog.age % 12} months old."
+        else
+        puts "\nAge: #{dog.age / 12} years & #{dog.age % 12} months old."
+        end 
         puts "Size: #{dog.size}"
         puts "Breed: #{dog.breed}"
         puts "Color: #{dog.color}"
@@ -108,9 +118,8 @@ class Cli
     end 
 
     def chosen_dog(input)
-        dog_id = Dog.all[input.to_i-1].internal_id]
+        dog_id = Dog.all[input.to_i-1].internal_id
         dog_details(dog_id)
-        puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
     end 
 
     def dogs_by_size
@@ -155,7 +164,6 @@ class Cli
     def chosen_foster(input)
         person_id = Person.all[input.to_i-1].internal_id
         fosters_info(person_id)
-        puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
     end 
 
     def fosters_info(person_id)
