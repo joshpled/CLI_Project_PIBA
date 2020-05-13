@@ -6,7 +6,7 @@ class Cli
         b = Artii::Base.new :font => 'straight'
         Api.get_by_name
         Api.get_people
-        Dog.dog_person
+        
         ## Intro Logo
         puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
         puts "\n" + "#{b.asciify('powered by')} Shelter Luv".colorize(:yellow)
@@ -14,6 +14,7 @@ class Cli
         prompt_user
         print "Option: " 
         input = gets.strip.downcase
+        # Dog.dog_person
         ## Loop for input.
         while input != "exit"
             if input.to_i == 1 or input == 'list'
@@ -46,7 +47,8 @@ class Cli
                     dogs_by_sex
                     print "\nOption: "
                     input = gets.strip.downcase.to_i
-                    
+                    dog_id = Search.sex_results[input.to_i-1].internal_id
+                    dog_details(dog_id)
                 when 3
                     ## No helper method needed. 
                     Search.search_by_availability
@@ -117,6 +119,7 @@ class Cli
     def dog_details(dog_id)
         ## When a dog is chosen, the details of that dog are displayed accordingly. 
         dog = Dog.all.detect {|dog| dog.internal_id == dog_id.to_s}
+        
         puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
         if dog.age == 12
             puts "\nAge: #{dog.age} year old"
@@ -132,8 +135,12 @@ class Cli
         puts "Color: #{dog.color}"
         puts "Status: #{dog.status.include?("Available") ? "Available for Adoption" : "Not Available, Currently with Foster"}"
         puts "With A Foster? #{dog.in_foster ? "Yes" : "No"}"
-        print dog.in_foster ? "Foster: #{dog.person["FirstName"]} #{dog.person["LastName"]}" : print
-        puts "\nAdoption Fee: $#{dog.adoption_fee["Price"]}"
+        if dog.in_foster == true && dog.person != nil
+            puts "Foster: #{dog.person["FirstName"]} #{dog.person["LastName"]}"
+        else
+            puts "No information for Foster"
+        end 
+        puts "Adoption Fee: $#{dog.adoption_fee["Price"]}"
         puts "Photos: #{dog.photos.join}"
         puts 
 
@@ -198,7 +205,11 @@ class Cli
     def fosters_info(person_id)
         person = Person.all.detect {|person| person.internal_id == person_id.to_s}
         puts "\n#{person.first_name} #{person.last_name}"
-        puts "#{person.email}"
+        if person.email
+            puts "#{person.email}"
+        else 
+            puts "NO INFORMATION AVAILABLE"
+        end 
         puts
     end 
     

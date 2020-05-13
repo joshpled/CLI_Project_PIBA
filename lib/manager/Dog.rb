@@ -27,7 +27,7 @@ class Dog
     def self.dog_person
         Person.all.each do |person|
             Dog.all.each do |dog|
-                if person.first_name.to_s.include?(dog.person["FirstName"].to_s)
+                if person.first_name.to_s.include?(dog.person["FirstName"].to_s) && dog.person != nil
                     person.dogs = dog.name
                 end 
             end 
