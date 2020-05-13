@@ -135,12 +135,16 @@ class Cli
         puts "Color: #{dog.color}"
         puts "Status: #{dog.status.include?("Available") ? "Available for Adoption" : "Not Available, Currently with Foster"}"
         puts "With A Foster? #{dog.in_foster ? "Yes" : "No"}"
-        if dog.in_foster == true && dog.person != nil
+        if dog.in_foster && dog.person
             puts "Foster: #{dog.person["FirstName"]} #{dog.person["LastName"]}"
         else
             puts "No information for Foster"
         end 
-        puts "Adoption Fee: $#{dog.adoption_fee["Price"]}"
+        if dog.adoption_fee
+            puts "Adoption Fee: $#{dog.adoption_fee["Price"]}"
+        else
+            puts "Adoption Fee: N/A"
+        end 
         puts "Photos: #{dog.photos.join}"
         puts 
 
