@@ -122,9 +122,9 @@ class Cli
         
         puts "\nSay Hello To: #{dog.name.colorize(:light_yellow)}!"
         if dog.age == 12
-            puts "\nAge: #{dog.age} year old"
+            puts "\nAge: #{dog.ag / 12} year old"
         elsif dog.age < 12
-            puts "\nAge: #{dog.age % 12} months ol"
+            puts "\nAge: #{dog.age % 12} months old"
         elsif dog.age > 12 && dog.age < 14
             puts "\nAge: #{dog.age / 12} year & #{dog.age % 12} months old"
         else 
