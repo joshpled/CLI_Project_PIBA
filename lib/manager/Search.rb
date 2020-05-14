@@ -1,6 +1,6 @@
 class Search
 
-    attr_accessor :input,
+    attr_accessor :input
     def initialize(input:)
         @input = input
     end
@@ -40,7 +40,5 @@ class Search
     def self.sex_results
         @@sex_results.sort_by{|dog|dog.internal_id}
     end 
-
-
 
 end 

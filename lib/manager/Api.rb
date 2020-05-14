@@ -6,10 +6,8 @@ class Api
         
             https = Net::HTTP.new(url.host, url.port);
             https.use_ssl = true
-        
             request = Net::HTTP::Get.new(url)
             request["x-api-key"] = ENV["KEY"]
-        
             response = https.request(request)
             animals = JSON.parse(response.body)
             dogs = animals['animals']
@@ -28,10 +26,7 @@ class Api
                 adoption_fee = animal["AdoptionFeeGroup"]
                 person = animal["AssociatedPerson"]
                 Dog.new(name: name, internal_id: internal_id, sex: sex, status: status, in_foster: in_foster, size: size, photos: photos, breed: breed, color: color, age: age, adoption_fee: adoption_fee, person: person)
-                
             end
-        
-        
         end 
 
         def self.get_people

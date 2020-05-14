@@ -4,11 +4,9 @@ class Cli
         ## Setting the fonts and running the API GET and assigning the respective classes with the proper attributes.
         a = Artii::Base.new
         b = Artii::Base.new :font => 'straight'
-       
+       #API and Object creation
         Api.get_by_name
         Api.get_people
-
-        
         ## Intro Logo
         puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
         puts "\n" + "#{b.asciify('powered by')} Shelter Luv".colorize(:yellow)
@@ -16,7 +14,7 @@ class Cli
         prompt_user
         print "Option: " 
         input = gets.strip.downcase
-        # Dog.dog_person
+
         ## Loop for input.
         while input != "exit"
             if input.to_i == 1 or input == 'list'
@@ -84,7 +82,6 @@ class Cli
         puts "\nThe PIBA Foundation is a 501(c)(3) organization. Contributions to The PIBA Foundation are tax-deductible to the extent allowed by law. The tax identification number is 84-2979389."
         puts "\nThank You for checking in!"
         puts
-
     end 
 
     def prompt_user
@@ -108,7 +105,6 @@ class Cli
         end 
         puts "\nWhich dog would you like more information on?"
         print "\nOption: " 
-
     end 
 
     def chosen_dog(input)
@@ -149,7 +145,6 @@ class Cli
         end 
         puts "Photos: #{dog.photos.join}"
         puts 
-
     end 
 
     ## Search Helper Methods
