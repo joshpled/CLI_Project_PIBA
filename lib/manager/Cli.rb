@@ -4,8 +4,10 @@ class Cli
         ## Setting the fonts and running the API GET and assigning the respective classes with the proper attributes.
         a = Artii::Base.new
         b = Artii::Base.new :font => 'straight'
+       
         Api.get_by_name
         Api.get_people
+
         
         ## Intro Logo
         puts "\n" + a.asciify('PIBA').colorize(:light_yellow)
@@ -72,7 +74,7 @@ class Cli
                 puts "\nIf choosing from a numbered list, your input must be a number."
                 puts 
             end
-            puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  or 'exit' to close program"
+            puts "\nTYPE: \n'list' for list of dogs, \n'fosters' for list of fosters, \n'search' for search menu, \n'home' for main menu,  \nor 'exit' to close program"
             print "\nMenu Options: "
             input = gets.strip.downcase
         end 

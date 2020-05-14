@@ -1,5 +1,5 @@
-
 class Api
+    
 
         def self.get_by_name
             url = URI("https://www.shelterluv.com/api/v1/animals")
@@ -13,7 +13,7 @@ class Api
             response = https.request(request)
             animals = JSON.parse(response.body)
             dogs = animals['animals']
-     
+            
             dogs.collect do |animal|
                 name = animal["Name"]
                 internal_id = animal["Internal-ID"]
@@ -28,8 +28,9 @@ class Api
                 adoption_fee = animal["AdoptionFeeGroup"]
                 person = animal["AssociatedPerson"]
                 Dog.new(name: name, internal_id: internal_id, sex: sex, status: status, in_foster: in_foster, size: size, photos: photos, breed: breed, color: color, age: age, adoption_fee: adoption_fee, person: person)
+                
             end
-            
+        
         
         end 
 
@@ -50,9 +51,11 @@ class Api
                 last_name = person["Lastname"]
                 email = person["Email"]
                 internal_id = person["Internal-ID"]
-                Person.new(first_name: first_name, last_name: last_name, email: email, internal_id: internal_id)
+                Person.new(first_name: first_name, last_name: last_name, email: email, internal_id: internal_id) 
+                
             end
         end 
+
 
 end
     
